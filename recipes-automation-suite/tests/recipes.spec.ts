@@ -68,7 +68,7 @@ test.describe('Recipes App E2E Tests', () => {
   });
 
   // Test Case 2: Login and verify status
-  test.only('should allow an existing user to login and display user info', async ({ page }) => {
+  test('should allow an existing user to login and display user info', async ({ page }) => {
     await page.goto(FRONTEND_URL);
 
     if (await page.getByRole('heading', { name: 'Sign In' }).isVisible()) {
@@ -189,5 +189,20 @@ test.describe('Recipes App E2E Tests', () => {
     await expect(page.getByText('Successfully signed out.')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Sign In' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Sign Out' })).not.toBeVisible();
+  });
+
+
+  // Visual test
+  test.only('should display the recipes list correctly visually', async ({ page }) => {
+    await page.goto(FRONTEND_URL);
+    // ... (login steps if needed) ...
+    await expect(page.getByRole('heading', { name: 'Recetas Populares' })).toBeVisible();
+
+    // Take a screenshot of the entire page or a specific element
+    await expect(page).toHaveScreenshot('recipes-list-page.png', { fullPage: true });
+
+    // Or for a specific element, e.g., a recipe card
+    const firstRecipeCard = page.locator('.recipe-card').first();
+    await expect(firstRecipeCard).toHaveScreenshot('first-recipe-card.png');
   });
 });
