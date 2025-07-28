@@ -1,0 +1,102 @@
+[
+  {
+    "id": "1",
+    "name": "Gallo Pinto",
+    "ingredients": [
+      "2 tazas de arroz cocido (del día anterior)",
+      "1 taza de frijoles rojos cocidos (con su caldo)",
+      "1/2 cebolla picada",
+      "1/4 taza de chiltoma (pimiento verde) picada",
+      "2 dientes de ajo picados",
+      "2 cucharadas de aceite vegetal",
+      "Sal al gusto"
+    ],
+    "instructions": [
+      "Calentar el aceite en una sartén grande a fuego medio.",
+      "Sofreír la cebolla, la chiltoma y el ajo hasta que estén suaves y fragantes.",
+      "Añadir los frijoles cocidos con un poco de su caldo y cocinar por unos minutos, aplastando algunos frijoles para espesar.",
+      "Incorporar el arroz cocido y mezclar bien, asegurándose de que el arroz se impregne del color y sabor de los frijoles. Cocinar hasta que el líquido se evapore y el gallo pinto esté seco y suelto.",
+      "Servir caliente, idealmente con huevo, queso, o carne asada."
+    ],
+    "image": "https://placehold.co/150x100/4a00e0/ffffff?text=Gallo+Pinto"
+  },
+  {
+    "id": "2",
+    "name": "Vigorón",
+    "ingredients": [
+      "2 tazas de yuca cocida y troceada",
+      "1 taza de chicharrón (cueritos de cerdo fritos)",
+      "1/2 repollo finamente picado",
+      "2 tomates picados",
+      "1 cebolla morada encurtida (con vinagre y sal)",
+      "Chile al gusto",
+      "Sal al gusto"
+    ],
+    "instructions": [
+      "En un plato, colocar una cama de hojas de plátano (opcional).",
+      "Disponer la yuca cocida en trozos.",
+      "Cubrir con el chicharrón.",
+      "Mezclar el repollo picado con el tomate y la cebolla encurtida. Añadir sal y chile al gusto.",
+      "Colocar la mezcla de repollo sobre el chicharrón.",
+      "Servir inmediatamente."
+    ],
+    "premium": true,
+    "image": "https://placehold.co/150x100/00c6ff/ffffff?text=Vigoron"
+  },
+  {
+    "id": "3",
+    "name": "Nacatamal",
+    "ingredients": [
+      "Masa de maíz para nacatamales",
+      "Carne de cerdo o pollo",
+      "Arroz",
+      "Papas",
+      "Hierbabuena",
+      "Tomate, cebolla, chiltoma (para el recado)",
+      "Naranja agria",
+      "Hojas de plátano",
+      "Achiote",
+      "Sal y pimienta"
+    ],
+    "instructions": [
+      "Preparar la masa con achiote y sal.",
+      "Marinar la carne con naranja agria y especias.",
+      "Preparar el recado con vegetales sofritos.",
+      "Extender las hojas de plátano, colocar la masa, luego la carne, arroz, papas y recado.",
+      "Envolver cuidadosamente y amarrar.",
+      "Cocer en agua hirviendo por varias horas."
+    ],
+    "image": "https://placehold.co/150x100/f7971e/ffffff?text=Nacatamal"
+  },
+  {
+    "id": "1753552273084",
+    "name": "Arroz de piñata",
+    "ingredients": [
+      "2 barras de mantequilla",
+      "1 cebolla mediana picada",
+      "3 chiltomas verdes picadas",
+      "3 dientes de ajo majados",
+      "3 ramas de apio picados",
+      "2 zanahorias peladas y picadas",
+      "6 chorizos o salchichas cortadas en ruedas",
+      "1 1/2 de pechuga de pollo sancochada y desmenuzada",
+      "1 taza de salsa de tomate",
+      "1 1/2 libras de arroz frito",
+      "Pan en rodajas"
+    ],
+    "instructions": [
+      "Ponemos al fuego una cazuela con un poco de aceite  le agregamos 1 barra de mantequilla, esto con el fin de que no se queme.",
+      "Cuando la mantequilla derrita, procedemos a agregar una cebolla mediana, 3 chiltomas verdes y 3 dientes de ajo, todos estos elementos van picaditos y dejamos que todo ablande.",
+      "Una vez que todos estos elementos ablanden, le agregamos 3 ramas de apio y 2 zanahorias picadas, luego revolvemos hasta que ambos elementos tomen un poco de cocción por al menos 4 minutos.",
+      "Una vez pase el tiempo le integramos 6 salchichas de hot dog o chorizo, en rodajas. Revolvemos en conjunto con los demás ingredientes para que se caramelice con un poco más de mantequilla, 1  barra para ser específicos.",
+      "Ahora le agregamos 1 1/2 de pechuga de pollo sancochado y en tiras o desmenuzado. Una vez finalicemos la integración, mezclamos con los demás ingredientes para que vaya tomando color y armonía.",
+      "Una vez se termine de integrar, le agregamos 1 taza de salsa de tomate que tenga dulzor y lo mezclamos bien porque este será nuestro colorante para que nuestro arroz se vea bonito y también le da un toque extra de sabor.",
+      "Ahora le añadimos 1 libra y media de arroz frito, como tradicionalmente se hace en Nicaragua y sin pelotas. El arroz debe de estar perfecto.",
+      "Ahora a fuego moderado, mezclamos todo hasta que el arroz se integre con todos los elementos y esperamos a cocine por 5 minutos.",
+      "Ahora toca servirlo con pan y a disfrutar se ha dicho 😉",
+      "Y bueno ahora que ya sabés como se hace el Arroz a la Valenciana nicaragüense, te toca a vos experimentar a hacer esta receta."
+    ],
+    "image": "https://placehold.co/150x100/cccccc/000000?text=Recipe",
+    "premium": true
+  }
+]
