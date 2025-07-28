@@ -36,23 +36,23 @@ jobs:
 
       - name: Install Backend Dependencies
         run: npm install
-        working-directory: ./recipes-api # Verify this path from the debug output
+        working-directory: ./api-recipes # Verify this path from the debug output
 
       - name: Install Frontend Dependencies
         run: npm install
-        working-directory: ./app-recipes-nicaraguan # Verify this path from the debug output
+        working-directory: ./recetas-nicas-app # Verify this path from the debug output
 
       - name: Install Playwright Test Dependencies
         run: npm install
-        working-directory: ./recipes-suite-automation # Verify this path from the debug output
+        working-directory: ./recipes-automation-suite # Verify this path from the debug output
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        working-directory: ./recipes-suite-automation
+        working-directory: ./recipes-automation-suite
 
       - name: Run Backend Coverage & API Tests
         run: npm run coverage
-        working-directory: ./recipes-api
+        working-directory: ./api-recipes
         env:
           NODE_ENV: test
 
@@ -66,18 +66,18 @@ jobs:
 
       - name: Start Frontend
         run: npm start &
-        working-directory: ./app-recipes-nicaraguan
+        working-directory: ./recetas-nicas-app
       - name: Wait for Frontend
         run: wait-on http://localhost:3000
 
       - name: Run Playwright UI Tests
         run: npx playwright test tests/recipes.spec.ts
-        working-directory: ./recipes-suite-automation
+        working-directory: ./recipes-automation-suite
 
       - name: Upload Playwright UI Test Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-ui-report
-          path: recipes-suite-automation/playwright-report/
+          path: recipes-automation-suite/playwright-report/
           retention-days: 5
