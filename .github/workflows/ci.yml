@@ -16,56 +16,68 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # --- DEBUGGING STEP: Check repository contents ---
+      - name: Debug - List repository contents
+        run: ls -laR ${{ github.workspace }}
+        # This command will print the entire directory structure of your cloned repository.
+        # Look for the exact path to 'recipes-api', 'app-recipes-nicaraguan', and 'recipes-suite-automation'.
+        # For example, if your repository is named 'nicaraguan_recipes' and your folders are directly inside,
+        # you might see paths like:
+        # /home/runner/work/nicaraguan_recipes/nicaraguan_recipes/recipes-api/
+        # Use this output to verify and correct your 'working-directory' paths below if needed.
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20' # Or your preferred Node.js version
 
       - name: Install wait-on (for service readiness)
-        run: npm install -g wait-on # Install globally for easy access
+        run: npm install -g wait-on
 
       - name: Install Backend Dependencies
         run: npm install
-        working-directory: ./recipes-api
+        working-directory: ./recipes-api # Verify this path from the debug output
 
       - name: Install Frontend Dependencies
         run: npm install
-        working-directory: ./app-recipes-nicaraguan
+        working-directory: ./app-recipes-nicaraguan # Verify this path from the debug output
 
       - name: Install Playwright Test Dependencies
         run: npm install
-        working-directory: ./recipes-suite-automation
+        working-directory: ./recipes-suite-automation # Verify this path from the debug output
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: ./recipes-suite-automation
 
-      - name: Start Backend
-        run: node backend.js &
+      - name: Run Backend Coverage & API Tests
+        run: npm run coverage
         working-directory: ./recipes-api
-        # Wait for backend to be ready on port 5000
-      - name: Wait for Backend
-        run: wait-on http://localhost:5000/api/recipes
+        env:
+          NODE_ENV: test
+
+      - name: Upload Backend Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-coverage-report
+          path: recipes-api/coverage/lcov-report/
+          retention-days: 5
 
       - name: Start Frontend
         run: npm start &
         working-directory: ./app-recipes-nicaraguan
-        # Wait for frontend to be ready on port 3000
       - name: Wait for Frontend
         run: wait-on http://localhost:3000
-
-      - name: Run Playwright API Tests
-        run: npx playwright test tests/api.spec.ts
-        working-directory: ./recipes-suite-automation
 
       - name: Run Playwright UI Tests
         run: npx playwright test tests/recipes.spec.ts
         working-directory: ./recipes-suite-automation
 
-      - name: Upload Playwright Test Report
+      - name: Upload Playwright UI Test Report
         uses: actions/upload-artifact@v4
-        if: always() # Always upload, even if tests fail
+        if: always()
         with:
-          name: playwright-report
+          name: playwright-ui-report
           path: recipes-suite-automation/playwright-report/
           retention-days: 5
