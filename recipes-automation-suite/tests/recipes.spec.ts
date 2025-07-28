@@ -1,7 +1,7 @@
 // tests/recipes.spec.ts
 import { test, expect } from '@playwright/test';
 
-// Define the base URLs for your frontend and backend
+// Define the base URLs for your frontend and backend (Move this to .env file in productives environments)
 const FRONTEND_URL = 'http://localhost:3000';
 const BACKEND_API_URL = 'http://localhost:5000/api';
 
@@ -40,34 +40,35 @@ test.describe('Recipes App E2E Tests', () => {
 
   // Test Case 1: Register a new user and verify login (if not done in beforeAll)
   // This test is useful if beforeAll fails or if you want a dedicated registration test
-  test.only('should allow a new user to register and then login', async ({ page }) => {
+  test('should allow a new user to register and then login', async ({ page }) => {
     const uniqueEmail = `newuser_${Date.now()}@example.com`;
     const uniquePassword = 'newsecurepassword';
 
     await page.goto(FRONTEND_URL);
-    // await expect(page.getByRole('heading', { name: 'Sign In' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
     await page.getByRole('button', { name: "Don't have an account? Register" }).click();
-    // await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible();
 
-    // await page.getByLabel('Email Address').fill(uniqueEmail);
-    // await page.getByLabel('Password').fill(uniquePassword);
-    // await page.getByRole('button', { name: 'Register' }).click();
+    await page.getByLabel('Email').fill(uniqueEmail);
+    await page.getByLabel('Password').fill(uniquePassword);
+    await page.getByRole('button', { name: 'Register' }).click();
 
-    // await expect(page.getByText('Registration successful! Please sign in.')).toBeVisible();
-    // await expect(page.getByRole('heading', { name: 'Sign In' })).toBeVisible();
+    await expect(page.getByText('Registration successful! Please log in.')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
 
-    // await page.getByLabel('Email Address').fill(uniqueEmail);
-    // await page.getByLabel('Password').fill(uniquePassword);
-    // await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.getByLabel('Email').fill(uniqueEmail);
+    await page.getByLabel('Password').fill(uniquePassword);
 
-    // await expect(page.getByRole('heading', { name: 'Popular Recipes' })).toBeVisible();
-    // await expect(page.getByText(`Signed in as: ${uniqueEmail}`)).toBeVisible();
-    // await expect(page.getByRole('button', { name: 'Sign Out' })).toBeVisible();
+    await page.getByRole('button', { name: 'login' }).last().click();
+
+    await expect(page.getByRole('heading', { name: 'Popular Recipes' })).toBeVisible();
+    await expect(page.getByText(`Logged in as: ${uniqueEmail}`)).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   // Test Case 2: Login and verify status
-  test('should allow an existing user to login and display user info', async ({ page }) => {
+  test.only('should allow an existing user to login and display user info', async ({ page }) => {
     await page.goto(FRONTEND_URL);
 
     if (await page.getByRole('heading', { name: 'Sign In' }).isVisible()) {

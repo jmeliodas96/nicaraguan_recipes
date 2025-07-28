@@ -1,0 +1,83 @@
+# .github/workflows/ci.yml
+name: CI for Recipes App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Or your preferred Node.js version
+
+      - name: Install wait-on (for service readiness)
+        run: npm install -g wait-on # Install globally for easy access
+
+      - name: Install Backend Dependencies
+        run: npm install
+        working-directory: ./api-recipes
+
+      - name: Install Frontend Dependencies
+        run: npm install
+        working-directory: ./recetas-nicas-app
+
+      - name: Install Playwright Test Dependencies
+        run: npm install
+        working-directory: ./recipes-automation-suite
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        working-directory: ./recipes-automation-suite
+
+      # --- Backend Setup & API Tests with Coverage ---
+      - name: Run Backend Coverage & API Tests
+        # This step will:
+        # 1. Start the backend with NYC for coverage collection.
+        # 2. Wait for the backend to be ready.
+        # 3. Run the Playwright API tests against the instrumented backend.
+        # 4. Kill the backend process.
+        # 5. Generate the coverage report.
+        run: npm run coverage
+        working-directory: ./api-recipes
+        env:
+          # Set NODE_ENV to test to potentially adjust backend behavior for tests
+          NODE_ENV: test
+
+      - name: Upload Backend Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always() # Always upload, even if coverage generation fails
+        with:
+          name: backend-coverage-report
+          path: api-recipes/coverage/lcov-report/ # Path where NYC generates the HTML report
+          retention-days: 5
+
+      # --- Frontend Setup & UI Tests ---
+      - name: Start Frontend
+        run: npm start &
+        working-directory: ./recetas-nicas-app
+        # Wait for frontend to be ready on port 3000
+      - name: Wait for Frontend
+        run: wait-on http://localhost:3000
+
+      - name: Run Playwright UI Tests
+        run: npx playwright test tests/recipes.spec.ts
+        working-directory: ./recipes-automation-suite
+
+      - name: Upload Playwright UI Test Report
+        uses: actions/upload-artifact@v4
+        if: always() # Always upload, even if tests fail
+        with:
+          name: playwright-ui-report
+          path: recipes-automation-suite/playwright-report/
+          retention-days: 5

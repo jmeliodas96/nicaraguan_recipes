@@ -74,6 +74,7 @@ export const AuthForm = ({ navigateTo }) => {
             type="submit"
             className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition-colors duration-200"
             disabled={loading}
+            name="login"
           >
             {loading ? 'Loading...' : (isRegistering ? t.register : t.login)}
           </button>
