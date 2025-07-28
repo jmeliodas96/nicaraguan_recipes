@@ -49,15 +49,23 @@ jobs:
       # Start the backend with NYC instrumentation in the background
       - name: Start Backend with Coverage Instrumentation
         run: |
-          npm run start-instrumented &
+          # Redirect backend output to a log file for debugging
+          npm run start-instrumented > backend_startup.log 2>&1 &
           echo "BACKEND_PID=$!" >> $GITHUB_ENV # Store PID in an environment variable
+          echo "Waiting for backend to start..."
+          sleep 10 # Increased sleep time to 10 seconds
+          echo "Checking if port 5000 is listening..."
+          lsof -i :5000 || true # Check if port is open, '|| true' to prevent step failure
+          echo "Backend startup logs:"
+          cat backend_startup.log # Print backend logs for debugging
         working-directory: ./api-recipes
         env:
           NODE_ENV: test # Set NODE_ENV for backend tests
 
-      # Wait for the backend to be ready
+      # Wait for the backend to be ready using wait-on
       - name: Wait for Backend to be Ready
-        run: wait-on http://localhost:5000/api/recipes
+        run: wait-on http://localhost:5000/api/recipes -t 60000 # Timeout after 60 seconds
+        working-directory: ./api-recipes # Execute wait-on from backend directory
 
       # Run Playwright API Tests from its own directory
       - name: Run Playwright API Tests
@@ -66,7 +74,7 @@ jobs:
 
       # --- Generate Coverage Report and Kill Backend ---
       # This step runs after API tests. It generates the coverage report and then kills the backend.
-      # 'if: always()' ensures this step runs even if API tests failed, to try and get coverage data.
+      # 'if: always()' ensures this step runs even if API tests failed.
       - name: Generate Coverage Report and Kill Backend
         run: |
           # Generate NYC report from the backend's directory
