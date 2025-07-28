@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node backend.js",
     "test": "echo 'No unit tests configured for backend yet. Use API tests.'",
-    "coverage": "nyc --reporter=lcov --reporter=text node backend.js & sleep 5 && npx playwright test ../recipes-suite-automation/tests/api.spec.ts && kill $(lsof -t -i:5000) && nyc report"
+    "coverage": "nyc --reporter=lcov --reporter=text node backend.js & sleep 5 && npx playwright test ../recipes-automation-suite/tests/api.spec.ts && kill $(lsof -t -i:5000) && nyc report"
   },
   "keywords": [],
   "author": "",
