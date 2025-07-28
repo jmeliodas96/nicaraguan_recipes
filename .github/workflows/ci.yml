@@ -31,19 +31,19 @@ jobs:
       # --- Install Dependencies for all subprojects ---
       - name: Install Backend Dependencies
         run: npm install
-        working-directory: ./recipes-api
+        working-directory: ./api-recipes
 
       - name: Install Frontend Dependencies
         run: npm install
-        working-directory: ./app-recipes-nicaraguan
+        working-directory: ./recetas-nicas-app
 
       - name: Install Playwright Test Dependencies
         run: npm install
-        working-directory: ./recipes-suite-automation
+        working-directory: ./recipes-automation-suite
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        working-directory: ./recipes-suite-automation
+        working-directory: ./recipes-automation-suite
 
       # --- Backend Setup for Coverage & API Tests Execution ---
       # Start the backend with NYC instrumentation in the background
@@ -51,7 +51,7 @@ jobs:
         run: |
           npm run start-instrumented &
           echo "BACKEND_PID=$!" >> $GITHUB_ENV # Store PID in an environment variable
-        working-directory: ./recipes-api
+        working-directory: ./api-recipes
         env:
           NODE_ENV: test # Set NODE_ENV for backend tests
 
@@ -61,8 +61,8 @@ jobs:
 
       # Run Playwright API Tests from its own directory
       - name: Run Playwright API Tests
-        run: npm run test:api # This script is defined in recipes-suite-automation/package.json
-        working-directory: ./recipes-suite-automation # Crucial: Run from Playwright's own directory
+        run: npm run test:api # This script is defined in recipes-automation-suite/package.json
+        working-directory: ./recipes-automation-suite # Crucial: Run from Playwright's own directory
 
       # --- Generate Coverage Report and Kill Backend ---
       # This step runs after API tests. It generates the coverage report and then kills the backend.
@@ -78,7 +78,7 @@ jobs:
           else
             echo "Backend PID not found, skipping kill."
           fi
-        working-directory: ./recipes-api # Crucial: Run NYC report from backend's directory
+        working-directory: ./api-recipes # Crucial: Run NYC report from backend's directory
         if: always()
 
       - name: Upload Backend Coverage Report
@@ -86,24 +86,24 @@ jobs:
         if: always() # Always upload, even if coverage generation failed (e.g., no files)
         with:
           name: backend-coverage-report
-          path: recipes-api/coverage/lcov-report/ # Path where NYC generates the HTML report
+          path: api-recipes/coverage/lcov-report/ # Path where NYC generates the HTML report
           retention-days: 5
 
       # --- Frontend Setup & UI Tests ---
       - name: Start Frontend
         run: npm start &
-        working-directory: ./app-recipes-nicaraguan
+        working-directory: ./recetas-nicas-app
       - name: Wait for Frontend to be Ready
         run: wait-on http://localhost:3000
 
       - name: Run Playwright UI Tests
-        run: npm run test:ui # This script is defined in recipes-suite-automation/package.json
-        working-directory: ./recipes-suite-automation # Crucial: Run from Playwright's own directory
+        run: npm run test:ui # This script is defined in recipes-automation-suite/package.json
+        working-directory: ./recipes-automation-suite # Crucial: Run from Playwright's own directory
 
       - name: Upload Playwright UI Test Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-ui-report
-          path: recipes-suite-automation/playwright-report/
+          path: recipes-automation-suite/playwright-report/
           retention-days: 5
